@@ -99,64 +99,6 @@ public class EtcTest {
 
     }
 
-//    class Solution
-//    {
-//
-//        public int solution(String s)
-//        {
-//            char str[] = s.toCharArray();
-//
-//            Stack<Character> stack = new Stack<>();
-//            for(int i = 0; i < str.length; i++) {
-//                if(!stack.isEmpty()) {
-//                    if(stack.peek() == str[i]) {
-//                        stack.pop();
-//                    } else {
-//                        stack.push(str[i]);
-//                    }
-//                } else {
-//                    stack.push(str[i]);
-//                }
-//            }
-//
-//            return 1;
-//        }
-//    }
-
-//    class Solution
-//    {
-//        public int solution(String s)
-//        {
-//            char str[] = s.toCharArray();
-//            char prev = str[0];
-//            int prevIdx = 0;
-//            int i = 1;
-//
-//            while(i != str.length) {
-//                if(str[i] == '-') {
-//                    i++;
-//                } else if(str[i] == prev) {
-//                    str[i] = '-';
-//                    str[prevIdx] = '-';
-//                    // 문자열 제거 후 초기화
-//                    i = 1;
-//                    prev = str[0];
-//                    prevIdx = 0;
-//                } else {
-//                    prev = str[i];
-//                    prevIdx = i;
-//                    i++;
-//                }
-//            }
-//
-//            for(char c : str) {
-//                if(c != '-') return 0;
-//            }
-//            return 1;
-//        }
-//    }
-
-
     @Test
     void queueTest() {
         int[] priorities = new int[] {1, 1, 2, 3, 2, 1};
@@ -254,6 +196,51 @@ public class EtcTest {
         hashMap.keySet();
         LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<>();
         linkedHashMap.keySet();
+    }
+
+    @Test
+    void regexTest() {
+        String str1 = "abasdasd2";
+        String str2 = "asd2";
+        String str3 = "sdsdsdwde";
+        String str4 = "1sdsdsdw";
+
+        String regex1 = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        String regex2 = "(?=.*[A-Za-z])";
+        String regex3 = ".*";
+
+        System.out.println("str1 = " + str1.matches(regex1));
+        System.out.println("str2 = " + str2.matches(regex1));
+        System.out.println("str3 = " + str3.matches(regex1));
+        System.out.println("str4 = " + str4.matches(regex1));
+
+        System.out.println("str1 = " + str1.matches(regex2));
+        System.out.println("str2 = " + str2.matches(regex2));
+        System.out.println("str3 = " + str3.matches(regex2));
+        System.out.println("str4 = " + str4.matches(regex2));
+
+        System.out.println("str1 = " + str1.matches(regex3));
+        System.out.println("str2 = " + str2.matches(regex3));
+        System.out.println("str3 = " + str3.matches(regex3));
+        System.out.println("str4 = " + str4.matches(regex3));
+    }
+
+    @Test
+    void regexTest2() {
+        String str1 = "as@";
+        String str2 = "fd2";
+        String str3 = "asd3$";
+
+        String regex1 = "^.*[$@$!%*#?&].*$";
+        String regex2 = "^.*[\\d].*$";
+
+        System.out.println("str1 = " + str1.matches(regex1));
+        System.out.println("str2 = " + str2.matches(regex1));
+        System.out.println("str3 = " + str3.matches(regex1));
+
+        System.out.println("str1 = " + str1.matches(regex2));
+        System.out.println("str2 = " + str2.matches(regex2));
+        System.out.println("str3 = " + str3.matches(regex2));
     }
 
 }
