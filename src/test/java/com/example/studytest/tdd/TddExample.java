@@ -8,11 +8,12 @@ import static org.assertj.core.api.Assertions.*;
 
 public class TddExample {
 
+    PasswordUtil passwordUtil = new PasswordUtil();
+
     @Test
     @DisplayName("Null 입력값이 들어오면 NullPointerException 발생")
     void nullInputValidation() {
         String input = null;
-        PasswordUtil passwordUtil = new PasswordUtil();
         assertThatNullPointerException().isThrownBy(() -> passwordUtil.passwordCheck(input));
     }
 
@@ -20,30 +21,74 @@ public class TddExample {
     @DisplayName("비어있는 입력값이 들어오면 IllegalArgumentException 발생")
     void emptyInputValidation() {
         String input = "";
-        PasswordUtil passwordUtil = new PasswordUtil();
         assertThatIllegalArgumentException().isThrownBy(() -> passwordUtil.passwordCheck(input));
     }
 
     @Test
-    @DisplayName("너무 짧은 입력값(8자리 이하)이 들어오면 불가능 코드 리턴")
+    @DisplayName("너무 짧은 입력값(8자리 이하)이 들어오면 DENY")
     void tooShortInputValidation() {
         String input = "abcd123";
-        PasswordUtil passwordUtil = new PasswordUtil();
         PasswordValidationDto result = passwordUtil.passwordCheck(input);
-        assertThat(result.getMessage()).isEqualTo("패스워드가 너무 짧습니다!(8자 이상 입력 필요)");
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.TOO_SHORT);
         assertThat(result.getStrength()).isEqualTo(PasswordStrength.DENY);
     }
 
     @Test
-    @DisplayName("너무 긴 입력값(16자리 이상)이 들어오면 불가능 코드 리턴")
+    @DisplayName("너무 긴 입력값(16자리 이상)이 들어오면 DENY")
     void tooLongInputValidation() {
         String input = "abcd1234abcd1234G";
-        PasswordUtil passwordUtil = new PasswordUtil();
         PasswordValidationDto result = passwordUtil.passwordCheck(input);
-        assertThat(result.getMessage()).isEqualTo("패스워드가 너무 깁니다!(16자 이하 입력 필요)");
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.TOO_LONG);
         assertThat(result.getStrength()).isEqualTo(PasswordStrength.DENY);
     }
 
+    @Test @DisplayName("숫자가 포함되지 않은 입력값이 들어오면 DENY")
+    void noUppercaseValidation() {
+        String input = "abcdsdfeA";
+        PasswordValidationDto result = passwordUtil.passwordCheck(input);
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.NO_NUMBER);
+        assertThat(result.getStrength()).isEqualTo(PasswordStrength.DENY);
+    }
+
+    @Test @DisplayName("특수문자가 포함되지 않은 입력값이 들어오면 DENY")
+    void noSpecialCharValidation() {
+        String input = "sdfsdf3435";
+        PasswordValidationDto result = passwordUtil.passwordCheck(input);
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.NO_SPECIAL_CHAR);
+        assertThat(result.getStrength()).isEqualTo(PasswordStrength.DENY);
+    }
+    
+    @Test @DisplayName("최소조건 충족 입력값이 들어오면 WEAK")
+    void fitInput() {
+        String input = "asdasd1@";
+        PasswordValidationDto result = passwordUtil.passwordCheck(input);
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.WEAK_PASSWORD);
+        assertThat(result.getStrength()).isEqualTo(PasswordStrength.WEAK);
+    }
+
+    @Test @DisplayName("8자 이상, 4가지 문자조합 입력값이 들어오면 NORMAL")
+    void normalInputTest1() {
+        String input = "asdasD1@";
+        PasswordValidationDto result = passwordUtil.passwordCheck(input);
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.NORMAL_PASSWORD);
+        assertThat(result.getStrength()).isEqualTo(PasswordStrength.NORMAL);
+    }
+
+    @Test @DisplayName("12자 이상, 3가지 이하 문자조합이 입력값이 들어오면 NORMAL")
+    void normalInputTest2() {
+        String input = "asdasd12243@#";
+        PasswordValidationDto result = passwordUtil.passwordCheck(input);
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.NORMAL_PASSWORD);
+        assertThat(result.getStrength()).isEqualTo(PasswordStrength.NORMAL);
+    }
+
+    @Test @DisplayName("12자 이상, 4가지 이상 문자조합이 입력값이 들어오면 STRONG")
+    void strongInputTest() {
+        String input = "asdasd12243@#D";
+        PasswordValidationDto result = passwordUtil.passwordCheck(input);
+        assertThat(result.getMessage()).isEqualTo(passwordUtil.STRONG_PASSWORD);
+        assertThat(result.getStrength()).isEqualTo(PasswordStrength.STRONG);
+    }
 
 
 }
