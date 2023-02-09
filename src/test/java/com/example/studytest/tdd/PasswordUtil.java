@@ -27,10 +27,10 @@ public class PasswordUtil {
         } else if(input.length() > 16) {
             dto.setMessage(TOO_LONG);
             dto.setStrength(PasswordStrength.DENY);
-        } else if(!input.matches("^.*[\\d].*$")) {
+        } else if(!input.matches("^.*[\\d].*$")) { // 숫자 포함 여부 확인
             dto.setMessage(NO_NUMBER);
             dto.setStrength(PasswordStrength.DENY);
-        } else if(!input.matches("^.*[$@$!%*#?&].*$")) {
+        } else if(!input.matches("^.*[$@$!%*#?&].*$")) { // 특문 포함 여부 확인
             dto.setMessage(NO_SPECIAL_CHAR);
             dto.setStrength(PasswordStrength.DENY);
         } else {
@@ -40,13 +40,18 @@ public class PasswordUtil {
     }
 
     private PasswordValidationDto strengthCheck(String input, PasswordValidationDto dto) {
+        // 12자 이상, 4가지 이상 문자조합 = STRONG
         if(input.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*#?&]{12,}")) {
             dto.setStrength(PasswordStrength.STRONG);
             dto.setMessage(STRONG_PASSWORD);
+
+        // 8자 이상, 4가지 문자조합 or 12자 이상, 3가지 이하 문자조합 = NORMAL
         } else if(input.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}")
         || input.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{12,}$")) {
             dto.setStrength(PasswordStrength.NORMAL);
             dto.setMessage(NORMAL_PASSWORD);
+
+        // 그외, password의 최소한의 기준만 충족 = WEAK
         } else {
             dto.setStrength(PasswordStrength.WEAK);
             dto.setMessage(WEAK_PASSWORD);
