@@ -1,8 +1,6 @@
 package com.example.studytest.oop.shop;
 
-import com.example.studytest.oop.shop.order.DeliveryService;
-import com.example.studytest.oop.shop.order.PayService;
-import com.example.studytest.oop.shop.order.StockService;
+import com.example.studytest.oop.shop.order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
