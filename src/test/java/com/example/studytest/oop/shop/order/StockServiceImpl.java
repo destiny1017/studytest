@@ -30,4 +30,5 @@ public class StockServiceImpl implements StockService {
         stockRepository.put(1L, 10);
         System.out.println("stocked 10 number of item of 1L..");
     }
+
 }
