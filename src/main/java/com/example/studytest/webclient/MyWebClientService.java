@@ -50,6 +50,7 @@ public class MyWebClientService {
     }
 
     public Mono callApiWebClient() {
+        log.info("call ApiWebClient..");
         WebClient webClient = WebClient.create("http://localhost:8081");
         Mono<String> response1 = webClient.get()
                 .uri("/api-call1")
@@ -66,5 +67,17 @@ public class MyWebClientService {
                 .retrieve()
                 .bodyToMono(String.class);
         return Mono.zip(response1, response2, response3);
+    }
+
+    public String longLatencyApiCall() {
+        URI uri1 = UriComponentsBuilder
+                .fromUriString("http://localhost:8081")
+                .path("/api-call1")
+                .encode()
+                .build()
+                .toUri();
+        RestTemplate restTemplate1 = new RestTemplate();
+        restTemplate1.getForEntity(uri1, String.class);
+        return "complete!";
     }
 }
