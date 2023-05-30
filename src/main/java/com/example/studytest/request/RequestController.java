@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @Slf4j
 public class RequestController {
 
     @PostMapping("/api/v1/request-body")
-    public void requestBodyTestV1(@RequestBody RequestDtoV1 body, HttpServletRequest request) {
+    public void requestBodyTestV1(@RequestBody RequestDtoV1 body) {
         log.info("call requestBodyTestV1");
         log.info("body = {}", body.toString());
     }

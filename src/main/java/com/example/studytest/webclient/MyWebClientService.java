@@ -16,6 +16,7 @@ public class MyWebClientService {
 
     public String callApiRestTemplate() {
         StringBuilder sb = new StringBuilder();
+        log.info("uri1 call");
         URI uri1 = UriComponentsBuilder
                 .fromUriString("http://localhost:8081")
                 .path("/api-call1")
@@ -25,6 +26,7 @@ public class MyWebClientService {
         RestTemplate restTemplate1 = new RestTemplate();
         ResponseEntity<String> resEntity1 = restTemplate1.getForEntity(uri1, String.class);
 
+        log.info("uri2 call");
         URI uri2 = UriComponentsBuilder
                 .fromUriString("http://localhost:8081")
                 .path("/api-call2")
@@ -34,6 +36,7 @@ public class MyWebClientService {
         RestTemplate restTemplate2 = new RestTemplate();
         ResponseEntity<String> resEntity2 = restTemplate2.getForEntity(uri2, String.class);
 
+        log.info("uri3 call");
         URI uri3 = UriComponentsBuilder
                 .fromUriString("http://localhost:8081")
                 .path("/api-call3")
